@@ -27,6 +27,7 @@ jobs:
           - duckdns
           - netlify
           - googleclouddns
+          - desec
     steps:
       - name: Checkout
         uses: actions/checkout@v4
