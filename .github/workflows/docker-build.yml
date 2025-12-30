@@ -84,8 +84,8 @@ jobs:
           build-args: |
             PROVIDER=${{ matrix.provider }}
           tags: jaredlander/caddy-dns:${{ matrix.provider }}-latest
-          cache-from: type=registry,ref=jaredlander/caddy-dns:${{ matrix.provider }}-latest
-          cache-to: type=inline
+          cache-from: type=gha,scope=${{ matrix.provider }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.provider }}
           provenance: false
   dockerhub-description:
     name: Copy README to Dockerhub
