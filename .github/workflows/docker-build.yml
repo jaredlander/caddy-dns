@@ -67,6 +67,8 @@ jobs:
           enable-url-completion: true
   keepalive-job:
     name: Keepalive Workflow
+    if: ${{ always() }}
+    needs: docker-builder
     runs-on: ubuntu-latest
     permissions:
       actions: write
