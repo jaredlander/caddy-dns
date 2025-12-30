@@ -48,22 +48,18 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and push (with retry)
-        uses: nick-fields/retry-action@v3
+      - name: Build and push
+        uses: docker/build-push-action@v5
         with:
-          timeout_minutes: 45
-          max_attempts: 3
-          retry_wait_seconds: 30
-          command: |
-            docker buildx build \
-              --build-arg PROVIDER=${{ matrix.provider }} \
-              --cache-from type=gha,scope=${{ matrix.provider }} \
-              --cache-to type=gha,mode=max,scope=${{ matrix.provider }} \
-              --platform linux/amd64,linux/arm64 \
-              --tag jaredlander/caddy-dns:${{ matrix.provider }}-latest \
-              --attest type=provenance,disabled=true \
-              --push \
-              .
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          build-args: |
+            PROVIDER=${{ matrix.provider }}
+          tags: jaredlander/caddy-dns:${{ matrix.provider }}-latest
+          cache-from: type=gha,scope=${{ matrix.provider }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.provider }}
+          provenance: false
   dockerhub-description:
     name: Copy README to Dockerhub
     runs-on: ubuntu-latest
