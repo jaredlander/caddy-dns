@@ -27,6 +27,7 @@ jobs:
           - duckdns
           - netlify
           - googleclouddns
+          - hetzner
           - desec
     steps:
       - name: Checkout
