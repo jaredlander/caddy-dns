@@ -35,6 +35,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Stagger job starts to avoid rate limits
+        run: |
+          # Random delay between 0-5 seconds to spread out jobs
+          DELAY=$((RANDOM % 5))
+          echo "Waiting ${DELAY} seconds to stagger job start..."
+          sleep $DELAY
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Login to Docker Hub
